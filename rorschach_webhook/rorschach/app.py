@@ -32,7 +32,7 @@ def verify_hub_signature(func):
     return verified
 
 
-@app.route('/rorschach/')
+@app.route('/rorschach/', methods=['POST'])
 @verify_hub_signature
 def verify_deserialize_and_enqueue():
     if request.headers['X-Github-Event'] == 'pull_request':
