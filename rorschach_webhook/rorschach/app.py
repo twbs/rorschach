@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.7
 # coding=utf-8
 from __future__ import absolute_import, unicode_literals, division, print_function
-from hmac import compare_digest, new as hmac
+from hmac import new as hmac
 from hashlib import sha1
 from functools import wraps
 from flask import Flask, request, Response
@@ -9,6 +9,15 @@ from werkzeug.exceptions import Forbidden
 # from rorschach.huey import huey
 
 app = application = Flask(__name__)
+
+try:
+    from hmac import compare_digest
+except ImportError:
+    def compare_digest(left, right):
+        diff = 0
+        for l, r in zip(left, right):
+            diff |= ord(l) ^ ord(r)
+        return diff == 0
 
 def verify_hub_signature(func):
     @wraps(func)
