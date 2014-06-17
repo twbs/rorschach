@@ -8,6 +8,8 @@ from flask import Flask, request, Response
 from werkzeug.exceptions import Forbidden, BadRequest
 # from rorschach.huey import huey
 
+RELEVANT_ACTIONS = frozenset('opened' 'synchronize')
+
 app = application = Flask(__name__)
 
 try:
@@ -47,7 +49,11 @@ def verify_deserialize_and_enqueue():
     event = request.headers['X-Github-Event']
     if event == 'pull_request':
         pull_req_payload = request.get_json()
+        if not isinstance(pull_req_payload, dict):
+            raise BadRequest("JSON does not match expected schema")
         app.logger.info("Got payload: {!r}".format(pull_req_payload))
+        if pull_req_payload.get('action') not in RELEVANT_ACTIONS:
+            app.logger.info("Ignoring irrelevant action")
     elif event == 'ping':
         app.logger.info("Successfully received ping event from GitHub")
     else:
