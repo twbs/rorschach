@@ -5,7 +5,7 @@ from hmac import new as hmac
 from hashlib import sha1
 from functools import wraps
 from flask import Flask, request, Response
-from werkzeug.exceptions import Forbidden
+from werkzeug.exceptions import Forbidden, BadRequest
 # from rorschach.huey import huey
 
 app = application = Flask(__name__)
@@ -22,7 +22,16 @@ except ImportError:
 def verify_hub_signature(func):
     @wraps(func)
     def verified(**kwargs):
-        given_sig = request.headers['X-Hub-Signature']
+        malformed = False
+        try:
+            sha_one, given_sig = request.headers['X-Hub-Signature'].split('=')
+        except ValueError:
+            malformed = True
+        else:
+            malformed = (sha_one != 'sha1')
+        if malformed:
+            raise BadRequest(description="HMAC-SHA1 header value was malformed")
+
         correct_sig = hmac(b"MY-KEY", msg=request.data, digestmod=sha1).hexdigest()
         if compare_digest(given_sig, correct_sig):
             return func(**kwargs)
