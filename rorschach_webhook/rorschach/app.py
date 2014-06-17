@@ -13,13 +13,14 @@ RELEVANT_ACTIONS = frozenset('opened' 'synchronize')
 app = application = Flask(__name__)
 
 try:
-    from hmac import compare_digest
+    from hmac import compare_digest  # pylint: disable=E0611
 except ImportError:
     def compare_digest(left, right):
         diff = 0
         for l, r in zip(left, right):
             diff |= ord(l) ^ ord(r)
         return diff == 0
+
 
 def verify_hub_signature(func):
     @wraps(func)
