@@ -35,9 +35,12 @@ def verify_hub_signature(func):
 @app.route('/rorschach/', methods=['POST'])
 @verify_hub_signature
 def verify_deserialize_and_enqueue():
-    if request.headers['X-Github-Event'] == 'pull_request':
+    event = request.headers['X-Github-Event']
+    if event == 'pull_request':
         pull_req_payload = request.get_json()
         app.logger.info("Got payload: {!r}".format(pull_req_payload))
+    elif event == 'ping':
+        app.logger.info("Successfully received ping event from GitHub")
     else:
         app.logger.info("Ignoring irrelevant event")
     return Response(b"OK", content_type=b'text/plain; charset=UTF-8')
