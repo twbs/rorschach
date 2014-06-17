@@ -23,7 +23,7 @@ def verify_hub_signature(func):
     @wraps(func)
     def verified(**kwargs):
         given_sig = request.headers['X-Hub-Signature']
-        correct_sig = hmac("MY-KEY", msg=request.data, digestmod=sha1).hexdigest()
+        correct_sig = hmac(b"MY-KEY", msg=request.data, digestmod=sha1).hexdigest()
         if compare_digest(given_sig, correct_sig):
             return func(**kwargs)
         else:
