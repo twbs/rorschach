@@ -1,4 +1,4 @@
-package com.chrisrebert.lmvtfy.util
+package com.getbootstrap.rorschach.util
 
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec

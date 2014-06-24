@@ -1,9 +1,9 @@
-package com.chrisrebert.lmvtfy.server
+package com.getbootstrap.rorschach.server
 
 import scala.util.{Try,Success,Failure}
 import spray.routing.{Directive1, MalformedHeaderRejection, MalformedRequestContentRejection, ValidationRejection}
 import spray.routing.directives.{BasicDirectives, HeaderDirectives, RouteDirectives, MarshallingDirectives}
-import com.chrisrebert.lmvtfy.util.{HmacSha1,Utf8ByteArray}
+import com.getbootstrap.rorschach.util.{HmacSha1,Utf8ByteArray}
 
 trait HubSignatureDirectives  {
 

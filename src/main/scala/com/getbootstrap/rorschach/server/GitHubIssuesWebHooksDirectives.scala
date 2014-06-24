@@ -1,6 +1,6 @@
-package com.chrisrebert.lmvtfy.server
+package com.getbootstrap.rorschach.server
 
-import com.chrisrebert.lmvtfy.github.{IssueOrCommentEvent, GitHubJsonProtocol}
+import com.getbootstrap.rorschach.github.{IssueOrCommentEvent, GitHubJsonProtocol}
 import scala.util.{Success, Failure, Try}
 import spray.json._
 import spray.routing.{Directive1, ValidationRejection}

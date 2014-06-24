@@ -1,4 +1,4 @@
-package com.chrisrebert.lmvtfy.server
+package com.getbootstrap.rorschach.server
 
 import scala.concurrent.duration._
 import scala.util.Try
@@ -8,7 +8,7 @@ import spray.can.Http
 import akka.pattern.ask
 import akka.routing.SmallestMailboxPool
 import akka.util.Timeout
-import com.chrisrebert.lmvtfy.github.GitHubIssueCommenter
+import com.getbootstrap.rorschach.github.GitHubIssueCommenter
 
 
 object Boot extends App {

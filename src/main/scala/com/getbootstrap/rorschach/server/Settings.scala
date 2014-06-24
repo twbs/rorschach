@@ -1,4 +1,4 @@
-package com.chrisrebert.lmvtfy.server
+package com.getbootstrap.rorschach.server
 
 import scala.collection.JavaConversions._
 import com.typesafe.config.Config
@@ -8,7 +8,7 @@ import akka.actor.ExtensionId
 import akka.actor.ExtensionIdProvider
 import akka.actor.ExtendedActorSystem
 import akka.util.ByteString
-import com.chrisrebert.lmvtfy.util.Utf8String
+import com.getbootstrap.rorschach.util.Utf8String
 
 class SettingsImpl(config: Config) extends Extension {
   val RepoFullNames: Set[String] = config.getStringList("lmvtfy.github-repos-to-watch").toSet
