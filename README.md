@@ -14,3 +14,10 @@ By automating the process of sanity-checking proposed pull requests:
 * Feedback can be given to the pull requester *extremely* quickly, decreasing the turnaround time on fixing the pull request and decreasing friction for the requester.
 * The requester can be referred to canonical write-ups explaining the common mistakes in detail, so that they have full context for understanding the reported mistakes.
 * Issue triagers will have less work to deal with, and human error in failing to zealously check every single pull request for every common mistake is eliminated.
+
+## Checks performed
+
+* Pull requests must always be against the `master` branch.
+* Pull requests must never edit `/dist/js/bootstrap.js` without also editing `/js/*.js`.
+* Pull requests must never edit `/dist/css/bootstrap.css` without also editing `/less/*.less`.
+* Pull requests must never modify the `CNAME` file.
