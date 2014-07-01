@@ -1,23 +1,22 @@
 package com.getbootstrap.rorschach.server
 
-import com.getbootstrap.rorschach.github.{IssueOrCommentEvent, GitHubJsonProtocol}
 import scala.util.{Success, Failure, Try}
-import spray.json._
 import spray.routing.{Directive1, ValidationRejection}
 import spray.routing.directives.{BasicDirectives, RouteDirectives}
+import org.eclipse.egit.github.core.event.PullRequestPayload
+import org.eclipse.egit.github.core.client.GsonUtils
 
-trait GitHubIssuesWebHooksDirectives {
+trait GitHubPullRequestWebHooksDirectives {
   import RouteDirectives.reject
   import BasicDirectives.provide
   import HubSignatureDirectives.stringEntityMatchingHubSignature
-  import GitHubJsonProtocol._
 
-  def authenticatedIssueOrCommentEvent(secretKey: Array[Byte]): Directive1[IssueOrCommentEvent] = stringEntityMatchingHubSignature(secretKey).flatMap{ entityJsonString =>
-    Try{ entityJsonString.parseJson.convertTo[IssueOrCommentEvent] } match {
-      case Failure(err) => reject(ValidationRejection("JSON either malformed or does not match expected schema!"))
-      case Success(event) => provide(event)
+  def authenticatedPullRequestEvent(secretKey: Array[Byte]): Directive1[PullRequestPayload] = stringEntityMatchingHubSignature(secretKey).flatMap{ entityJsonString =>
+    Try { GsonUtils.fromJson(entityJsonString, classOf[PullRequestPayload]) } match {
+      case Failure(exc) => reject(ValidationRejection("JSON was either malformed or did not match expected schema!"))
+      case Success(payload) => provide(payload)
     }
   }
 }
 
-object GitHubIssuesWebHooksDirectives extends GitHubIssuesWebHooksDirectives
+object GitHubPullRequestWebHooksDirectives extends GitHubPullRequestWebHooksDirectives
