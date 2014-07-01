@@ -22,7 +22,7 @@ object Boot extends App {
   maybePort match {
     case Some(port) => run(port)
     case _ => {
-      System.err.println("USAGE: lmvtfy <port-number>")
+      System.err.println("USAGE: rorschach <port-number>")
       System.exit(1)
     }
   }
