@@ -31,11 +31,9 @@ object Boot extends App {
     implicit val system = ActorSystem("on-spray-can")
     // import actorSystem.dispatcher
 
-    val commenter = system.actorOf(Props(classOf[GitHubIssueCommenter]))
-    val localValidator = system.actorOf(Props(classOf[ValidatorSingletonActor], commenter), "validator-service")
-    val exampleFetcherPool = system.actorOf(SmallestMailboxPool(5).props(Props(classOf[LiveExampleFetcher], localValidator)), "example-fetcher-pool")
-    val issueCommentEventHandler = system.actorOf(Props(classOf[IssueCommentEventHandler], exampleFetcherPool), "issue-comment-event-handler")
-    val webService = system.actorOf(Props(classOf[LmvtfyActor], issueCommentEventHandler), "lmvtfy-service")
+    val commenter = system.actorOf(SmallestMailboxPool(3).props(Props(classOf[GitHubIssueCommenter])), "gh-pr-commenter")
+    val prAuditorPool = system.actorOf(SmallestMailboxPool(5).props(Props(classOf[PullRequestEventHandler], commenter)), "pr-auditor-pool")
+    val webService = system.actorOf(Props(classOf[RorschachActor], prAuditorPool), "rorschach-service")
 
     implicit val timeout = Timeout(15.seconds)
     IO(Http) ? Http.Bind(webService, interface = "0.0.0.0", port = port)
