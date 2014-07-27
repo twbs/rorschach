@@ -19,6 +19,9 @@ class PullRequestEventHandler(commenter: ActorRef) extends GitHubActorWithLoggin
   implicit class RichCommitFile(file: CommitFile) {
     def status: CommitFileStatus = CommitFileStatus(file.getStatus)
   }
+  implicit class RichPullRequest(pr: PullRequest) {
+    def issueNumber: IssueNumber = IssueNumber(pr.getNumber).get
+  }
 
   private def modifiedFilesFor(repoId: RepositoryId, base: CommitSha, head: CommitSha) = {
     val commitService = new CommitService(gitHubClient)
@@ -51,7 +54,7 @@ class PullRequestEventHandler(commenter: ActorRef) extends GitHubActorWithLoggin
 
           val allMessages = fileMessages ++ branchMessages
           if (allMessages.nonEmpty) {
-            commenter ! PullRequestFeedback(pr.getNumber, pr.getUser, allMessages)
+            commenter ! PullRequestFeedback(pr.issueNumber, pr.getUser, allMessages)
           }
         }
         case otherRepo => log.error(s"Received event from GitHub about irrelevant repository: ${otherRepo}")

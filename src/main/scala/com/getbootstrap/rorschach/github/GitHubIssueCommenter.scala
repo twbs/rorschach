@@ -1,10 +1,9 @@
 package com.getbootstrap.rorschach.github
 
 import scala.util.{Try,Failure,Success}
-import org.eclipse.egit.github.core.client.GitHubClient
 import org.eclipse.egit.github.core.service.IssueService
 import org.eclipse.egit.github.core.RepositoryId
-import com.getbootstrap.rorschach.server.{ActorWithLogging, Settings}
+import com.getbootstrap.rorschach.server.Settings
 
 
 class GitHubIssueCommenter extends GitHubActorWithLogging {
@@ -18,6 +17,7 @@ class GitHubIssueCommenter extends GitHubActorWithLogging {
   override def receive = {
     case PullRequestFeedback(prNum, requester, messages) => {
       val username = requester.getLogin
+      val messagesMarkdown = messages.map{ "* " + _ }.mkString("\n")
       val commentMarkdown = s"""
         |Hi @${username}!
         |

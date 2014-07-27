@@ -28,7 +28,7 @@ class RorschachActor(protected val pullRequestEventHandler: ActorRef) extends Ac
               authenticatedPullRequestEvent(settings.WebHookSecretKey.toArray) { event =>
                 event.getAction match {
                   case "opened" | "synchronize" | "reopened" => {
-                    var pr = event.getPullRequest
+                    val pr = event.getPullRequest
                     if (pr.getState == "open") {
                       pullRequestEventHandler ! pr
                       complete(StatusCodes.OK)
