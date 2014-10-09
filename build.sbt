@@ -2,7 +2,7 @@ name := "rorschach"
 
 version := "1.0"
 
-scalaVersion := "2.10.3"
+scalaVersion := "2.10.4"
 
 mainClass := Some("com.getbootstrap.rorschach.server.Boot")
 
