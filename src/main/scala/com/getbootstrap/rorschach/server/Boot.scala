@@ -32,6 +32,7 @@ object Boot extends App {
 
   def run(port: Option[Int]) {
     implicit val system = ActorSystem("on-spray-can")
+    val settings = Settings(system)
     // import actorSystem.dispatcher
 
     val commenter = system.actorOf(SmallestMailboxPool(3).props(Props(classOf[GitHubPullRequestCommenter])), "gh-pr-commenter")
