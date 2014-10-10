@@ -27,6 +27,7 @@ class PullRequestEventHandler(commenter: ActorRef) extends GitHubActorWithLoggin
       val prHead = pr.getHead
       val destinationRepo = bsBase.getRepo.repositoryId
       if (settings.repoIds contains destinationRepo) {
+        log.info(s"Auditing ${destinationRepo} ${pr.number} ...")
         val base = bsBase.commitSha
         val head = prHead.commitSha
         val foreignRepoId = prHead.getRepo.repositoryId
