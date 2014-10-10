@@ -25,29 +25,30 @@ class PullRequestEventHandler(commenter: ActorRef) extends GitHubActorWithLoggin
     case pr: PullRequest => {
       val bsBase = pr.getBase
       val prHead = pr.getHead
-      bsBase.getRepo.repositoryId match {
-        case BootstrapRepoId => {
-          val base = bsBase.commitSha
-          val head = prHead.commitSha
-          val foreignRepoId = prHead.getRepo.repositoryId
+      val destinationRepo = bsBase.getRepo.repositoryId
+      if (settings.repoIds contains destinationRepo) {
+        val base = bsBase.commitSha
+        val head = prHead.commitSha
+        val foreignRepoId = prHead.getRepo.repositoryId
 
-          val fileMessages = modifiedFilesFor(foreignRepoId, base, head) match {
-            case Failure(exc) => {
-              log.error(exc, s"Could not get modified files for commits ${base}...${head} for ${foreignRepoId}")
-              Nil
-            }
-            case Success(modifiedFiles) => {
-              ModifiedFilesAuditor.audit(modifiedFiles)
-            }
+        val fileMessages = modifiedFilesFor(foreignRepoId, base, head) match {
+          case Failure(exc) => {
+            log.error(exc, s"Could not get modified files for commits ${base}...${head} for ${foreignRepoId}")
+            Nil
           }
-          val branchMessages = BaseAndHeadBranchesAuditor.audit(baseBranch = bsBase.getRef, headBranch = prHead.getRef)
-
-          val allMessages = fileMessages ++ branchMessages
-          if (allMessages.nonEmpty) {
-            commenter ! PullRequestFeedback(pr.number, pr.getUser, allMessages)
+          case Success(modifiedFiles) => {
+            ModifiedFilesAuditor.audit(modifiedFiles)
           }
         }
-        case otherRepo => log.error(s"Received event from GitHub about irrelevant repository: ${otherRepo}")
+        val branchMessages = BaseAndHeadBranchesAuditor.audit(baseBranch = bsBase.getRef, headBranch = prHead.getRef)
+
+        val allMessages = fileMessages ++ branchMessages
+        if (allMessages.nonEmpty) {
+          commenter ! PullRequestFeedback(destinationRepo, pr.number, pr.getUser, allMessages)
+        }
+      }
+      else {
+        log.error(s"Received event from GitHub about irrelevant repository: ${destinationRepo}")
       }
     }
   }

@@ -8,7 +8,7 @@ import spray.http._
 class RorschachActor(protected val pullRequestEventHandler: ActorRef) extends ActorWithLogging with HttpService {
   import GitHubPullRequestWebHooksDirectives.authenticatedPullRequestEvent
 
-  val settings = Settings(context.system)
+  private val settings = Settings(context.system)
   override def actorRefFactory = context
   override def receive = runRoute(theOnlyRoute)
 

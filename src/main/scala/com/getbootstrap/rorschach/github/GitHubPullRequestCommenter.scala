@@ -31,7 +31,7 @@ class GitHubPullRequestCommenter extends GitHubActorWithLogging {
   }
 
   override def receive = {
-    case PullRequestFeedback(prNum, requester, messages) => {
+    case PullRequestFeedback(repo, prNum, requester, messages) => {
       val username = requester.getLogin
       val messagesMarkdown = messages.map{ "* " + _ }.mkString("\n")
       val commentMarkdown = s"""
@@ -47,14 +47,16 @@ class GitHubPullRequestCommenter extends GitHubActorWithLogging {
         |(*Please note that this is a [fully automated](https://github.com/cvrebert/rorschach) comment.*)
       """.stripMargin
 
-      tryToCommentOn(BootstrapRepoId, prNum, commentMarkdown) match {
+      tryToCommentOn(repo, prNum, commentMarkdown) match {
         case Success(comment) => log.info(s"Successfully posted comment ${comment.getUrl} for ${prNum}")
         case Failure(exc) => log.error(exc, s"Error posting comment for ${prNum}")
       }
 
-      tryToClose(BootstrapRepoId, prNum) match {
-        case Success(_) => log.info(s"Successfully closed ${prNum} due to failed audit(s)")
-        case Failure(exc) => log.error(exc, s"Error closing ${prNum}")
+      if (settings.CloseBadPullRequests) {
+        tryToClose(repo, prNum) match {
+          case Success(_) => log.info(s"Successfully closed ${prNum} due to failed audit(s)")
+          case Failure(exc) => log.error(exc, s"Error closing ${prNum}")
+        }
       }
     }
   }
