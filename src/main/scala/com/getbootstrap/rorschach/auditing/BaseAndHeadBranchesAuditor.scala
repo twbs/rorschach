@@ -10,14 +10,14 @@ object BaseAndHeadBranchesAuditor {
 
   def auditThatNotAgainstGhPages(baseBranch: String): Option[String] = {
     baseBranch match {
-      case "gh-pages" => Some("Normal pull requests should never be against the gh-pages branch.")
+      case "gh-pages" => Some("Normal pull requests should never be against the `gh-pages` branch.")
       case _ => None
     }
   }
 
   def auditThatNotMergingGhPagesIntoMaster(baseBranch: String, headBranch: String): Option[String] = {
     (headBranch, baseBranch) match {
-      case ("gh-pages", "master") => Some("Normally, gh-pages should not be merged into master.")
+      case ("gh-pages", "master") => Some("Normally, the `gh-pages` branch should never be merged into `master` branch.")
       case _ => None
     }
   }
