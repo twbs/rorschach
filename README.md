@@ -17,7 +17,8 @@ By automating the process of sanity-checking proposed pull requests:
 
 ## Checks performed
 
-* Pull requests must always be against the `master` branch.
+* Pull requests must never be against the `gh-pages` branch.
+* Pull requests must not attempt to merge the `gh-pages` branch into the `master` branch.
 * Pull requests must never edit `/dist/js/bootstrap.js` without also editing `/js/*.js`.
 * Pull requests must never edit `/dist/css/bootstrap.css` without also editing `/less/*.less`.
 * Pull requests must never modify the `CNAME` file.
