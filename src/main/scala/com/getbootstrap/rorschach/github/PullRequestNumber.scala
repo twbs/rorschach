@@ -11,5 +11,5 @@ object PullRequestNumber {
   }
 }
 class PullRequestNumber private(val number: Int) extends AnyVal {
-  override def toString = s"IssueNumber(${number})"
+  override def toString = s"PullRequestNumber(${number})"
 }
