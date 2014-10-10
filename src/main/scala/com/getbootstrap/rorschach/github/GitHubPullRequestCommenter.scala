@@ -37,7 +37,7 @@ class GitHubPullRequestCommenter extends GitHubActorWithLogging {
       val commentMarkdown = s"""
         |Hi @${username}!
         |
-        |Thanks for wanting to contribute to Bootstrap by sending this pull request.
+        |Thanks for wanting to contribute to Bootstrap by sending this pull request!
         |Unfortunately, your pull request seems to have some problems:
         |${messagesMarkdown}
         |
