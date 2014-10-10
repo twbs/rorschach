@@ -47,6 +47,9 @@ class PullRequestEventHandler(commenter: ActorRef) extends GitHubActorWithLoggin
         if (allMessages.nonEmpty) {
           commenter ! PullRequestFeedback(destinationRepo, pr.number, pr.getUser, allMessages)
         }
+        else {
+          log.info(s"Repo ${destinationRepo} ${pr.number} successfully passed all audits.")
+        }
       }
       else {
         log.error(s"Received event from GitHub about irrelevant repository: ${destinationRepo}")
