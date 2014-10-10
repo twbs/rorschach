@@ -13,6 +13,7 @@ class SettingsImpl(config: Config) extends Extension {
   val BotUsername: String = config.getString("rorschach.username")
   val BotPassword: String = config.getString("rorschach.password")
   val WebHookSecretKey: ByteString = ByteString(config.getString("rorschach.web-hook-secret-key").utf8Bytes)
+  val DefaultPort: Int = config.getInt("rorschach.default-port")
 }
 object Settings extends ExtensionId[SettingsImpl] with ExtensionIdProvider {
   override def lookup() = Settings

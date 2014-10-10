@@ -5,23 +5,13 @@ import com.getbootstrap.rorschach.auditing.{BaseAndHeadBranchesAuditor, Modified
 import scala.collection.JavaConverters._
 import scala.util.{Try,Success,Failure}
 import akka.actor.ActorRef
-import com.getbootstrap.rorschach.github._
-import org.eclipse.egit.github.core.service.CommitService
 import org.eclipse.egit.github.core._
+import org.eclipse.egit.github.core.service.CommitService
+import com.getbootstrap.rorschach.github._
+import com.getbootstrap.rorschach.github.util._
 
 class PullRequestEventHandler(commenter: ActorRef) extends GitHubActorWithLogging {
-  implicit class RichRepository(repo: Repository) {
-    def repositoryId: RepositoryId = new RepositoryId(repo.getOwner.getLogin, repo.getName)
-  }
-  implicit class RichPullRequestMarker(marker: PullRequestMarker) {
-    def commitSha: CommitSha = new CommitSha(marker.getSha)
-  }
-  implicit class RichCommitFile(file: CommitFile) {
-    def status: CommitFileStatus = CommitFileStatus(file.getStatus)
-  }
-  implicit class RichPullRequest(pr: PullRequest) {
-    def issueNumber: IssueNumber = IssueNumber(pr.getNumber).get
-  }
+
 
   private def modifiedFilesFor(repoId: RepositoryId, base: CommitSha, head: CommitSha) = {
     val commitService = new CommitService(gitHubClient)
@@ -54,7 +44,7 @@ class PullRequestEventHandler(commenter: ActorRef) extends GitHubActorWithLoggin
 
           val allMessages = fileMessages ++ branchMessages
           if (allMessages.nonEmpty) {
-            commenter ! PullRequestFeedback(pr.issueNumber, pr.getUser, allMessages)
+            commenter ! PullRequestFeedback(pr.number, pr.getUser, allMessages)
           }
         }
         case otherRepo => log.error(s"Received event from GitHub about irrelevant repository: ${otherRepo}")
