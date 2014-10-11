@@ -22,7 +22,7 @@ object ModifiedFilesAuditor {
     val cssModified = filepaths.exists{ _.isDistCss }
     val lessModified = filepaths.exists{ _.isSourceLess }
     if (cssModified && !lessModified) {
-      Some("Changes must be made to the original Less source code file(s), not just the compiled CSS file(s).")
+      Some("[Changes must be made to the original Less source code file(s), not just the compiled CSS file(s).](https://github.com/cvrebert/rorschach/blob/master/docs/css.md)")
     }
     else {
       None
@@ -36,7 +36,7 @@ object ModifiedFilesAuditor {
     val distJsModified = filepaths.exists{ _.isDistJs }
     val sourceJsModified = filepaths.exists{ _.isSourceJs }
     if (distJsModified && !sourceJsModified) {
-      Some("Changes must be made to the original JS source code file(s), not just the generated concatenated JS file(s).")
+      Some("[Changes must be made to the original JS source code file(s), not just the generated concatenated JS file(s).](https://github.com/cvrebert/rorschach/blob/master/docs/js.md)")
     }
     else {
       None
@@ -45,7 +45,7 @@ object ModifiedFilesAuditor {
 
   private def auditCname(filepaths: Set[String]): Option[String] = {
     if (filepaths.contains("CNAME")) {
-      Some("The `CNAME` file should never be modified (except in extremely unlikely circumstances).")
+      Some("[The `CNAME` file should never be modified.](https://github.com/cvrebert/rorschach/blob/master/docs/cname.md)")
     }
     else {
       None
