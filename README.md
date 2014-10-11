@@ -2,7 +2,7 @@ Rorschach
 =========
 [![Build Status](https://travis-ci.org/twbs/rorschach.svg?branch=master)](https://travis-ci.org/twbs/rorschach)
 
-[Bootstrap](https://github.com/twbs/bootstrap/) pull request sanity checker bot
+[Bootstrap](https://github.com/twbs/bootstrap/) pull request sanity checker bot; [@twbs-rorschach](https://github.com/twbs-rorschach)
 
 ## Motivation
 
