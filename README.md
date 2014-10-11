@@ -29,3 +29,6 @@ By automating the process of sanity-checking proposed pull requests:
 * Content type: `application/json`
 * Secret: Same as your `web-hook-secret-key` config value
 * Which events would you like to trigger this webhook?: "Pull Request"
+
+## See also
+* [LMVTFY](https://github.com/cvrebert/lmvtfy), Rorschach's sister bot who does HTML validation
