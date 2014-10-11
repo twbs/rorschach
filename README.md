@@ -22,3 +22,10 @@ By automating the process of sanity-checking proposed pull requests:
 * [Pull requests must never edit `/dist/js/bootstrap.js` without also editing `/js/*.js`](docs/js.md).
 * [Pull requests must never edit `/dist/css/bootstrap.css` without also editing `/less/*.less`.](docs/css.md)
 * [Pull requests must never modify the `CNAME` file.](docs/cname.md)
+
+## GitHub webhook configuration
+
+* Payload URL: `http://your-domain.example/rorschach`
+* Content type: `application/json`
+* Secret: Same as your `web-hook-secret-key` config value
+* Which events would you like to trigger this webhook?: "Pull Request"
