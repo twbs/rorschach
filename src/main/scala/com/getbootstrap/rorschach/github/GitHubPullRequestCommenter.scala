@@ -44,7 +44,7 @@ class GitHubPullRequestCommenter extends GitHubActorWithLogging {
         |You'll need to **fix these mistakes** and revise your pull request before we can proceed further.
         |Thanks!
         |
-        |(*Please note that this is a [fully automated](https://github.com/cvrebert/rorschach) comment.*)
+        |(*Please note that this is a [fully automated](https://github.com/twbs/rorschach) comment.*)
       """.stripMargin
 
       tryToCommentOn(repo, prNum, commentMarkdown) match {

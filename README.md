@@ -1,6 +1,6 @@
 Rorschach
 =========
-[![Build Status](https://travis-ci.org/cvrebert/rorschach.svg?branch=master)](https://travis-ci.org/cvrebert/rorschach)
+[![Build Status](https://travis-ci.org/twbs/rorschach.svg?branch=master)](https://travis-ci.org/twbs/rorschach)
 
 [Bootstrap](https://github.com/twbs/bootstrap/) pull request sanity checker
 
