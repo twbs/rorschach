@@ -2,7 +2,9 @@ Rorschach
 =========
 [![Build Status](https://travis-ci.org/twbs/rorschach.svg?branch=master)](https://travis-ci.org/twbs/rorschach)
 
-[Bootstrap](https://github.com/twbs/bootstrap/) pull request sanity checker bot; [@twbs-rorschach](https://github.com/twbs-rorschach)
+Rorschach ([@twbs-rorschach](https://github.com/twbs-rorschach)) is a [Bootstrap](https://github.com/twbs/bootstrap/) pull request sanity checker bot.
+
+Rorschach watches for new or modified pull requests, runs sanity checks on them, and if a sanity check fails, it leaves an informative comment on the pull request explaining the mistake and how to fix it, and then closes the pull request.
 
 ## Motivation
 
