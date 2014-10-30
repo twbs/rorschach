@@ -32,5 +32,10 @@ By automating the process of sanity-checking proposed pull requests:
 * Secret: Same as your `web-hook-secret-key` config value
 * Which events would you like to trigger this webhook?: "Pull Request"
 
+## Acknowledgements
+We all stand on the shoulders of giants and get by with a little help from our friends. Rorschach is written in [Scala](http://www.scala-lang.org) and built on top of:
+* [Akka](http://akka.io) & [Spray](http://spray.io), for async processing & HTTP
+* [Eclipse EGit GitHub library](https://github.com/eclipse/egit-github), for working with [the GitHub API](https://developer.github.com/v3/)
+
 ## See also
 * [LMVTFY](https://github.com/cvrebert/lmvtfy), Rorschach's sister bot who does HTML validation
