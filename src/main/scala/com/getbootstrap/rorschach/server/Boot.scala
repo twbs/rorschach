@@ -18,7 +18,7 @@ object Boot extends App {
     case Seq(portStr: String) => {
       Try{ portStr.toInt } match {
         case Failure(_) => {
-          System.err.println("USAGE: lmvtfy <port-number>")
+          System.err.println("USAGE: rorschach <port-number>")
           System.exit(1)
           None // dead code
         }
