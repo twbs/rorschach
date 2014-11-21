@@ -42,6 +42,7 @@ class GitHubPullRequestCommenter extends GitHubActorWithLogging {
         |${messagesMarkdown}
         |
         |You'll need to **fix these mistakes** and revise your pull request before we can proceed further.
+        |Once you've fixed these problems, you can either ask the maintainers to re-open this pull request, or you can create a new pull request.
         |Thanks!
         |
         |(*Please note that this is a [fully automated](https://github.com/twbs/rorschach) comment.*)
