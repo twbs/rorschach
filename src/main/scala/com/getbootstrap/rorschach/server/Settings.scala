@@ -18,6 +18,7 @@ class SettingsImpl(config: Config) extends Extension {
   val WebHookSecretKey: ByteString = ByteString(config.getString("rorschach.web-hook-secret-key").utf8Bytes)
   val DefaultPort: Int = config.getInt("rorschach.default-port")
   val CloseBadPullRequests: Boolean = config.getBoolean("rorschach.close-bad-pull-requests")
+  val TrustedOrganizations: Set[String] = config.getStringList("rorschach.trusted-orgs").asScala.toSet
 }
 object Settings extends ExtensionId[SettingsImpl] with ExtensionIdProvider {
   override def lookup() = Settings
