@@ -2,7 +2,7 @@ name := "rorschach"
 
 version := "1.0"
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.11.5"
 
 mainClass := Some("com.getbootstrap.rorschach.server.Boot")
 
@@ -11,7 +11,7 @@ resolvers ++= Seq("snapshots", "releases").map(Resolver.sonatypeRepo)
 libraryDependencies += "org.eclipse.mylyn.github" % "org.eclipse.egit.github.core" % "2.1.5"
 
 libraryDependencies ++= {
-  val akkaV = "2.3.6"
+  val akkaV = "2.3.9"
   val sprayV = "1.3.2"
   Seq(
     "io.spray"            %%  "spray-can"     % sprayV,
