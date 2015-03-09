@@ -30,10 +30,22 @@ object Boot extends App {
 
   run(argsPort)
 
+
+  def squelchInvalidHttpLogging() {
+    import org.slf4j.LoggerFactory
+    import ch.qos.logback.classic.{Logger,Level}
+
+    LoggerFactory.getLogger("spray.can.server.HttpServerConnection").asInstanceOf[Logger].setLevel(Level.ERROR)
+  }
+
   def run(port: Option[Int]) {
     implicit val system = ActorSystem("on-spray-can")
     val settings = Settings(system)
     // import actorSystem.dispatcher
+
+    if (settings.SquelchInvalidHttpLogging) {
+      squelchInvalidHttpLogging()
+    }
 
     val commenter = system.actorOf(SmallestMailboxPool(3).props(Props(classOf[GitHubPullRequestCommenter])), "gh-pr-commenter")
     val prAuditorPool = system.actorOf(SmallestMailboxPool(5).props(Props(classOf[PullRequestEventHandler], commenter)), "pr-auditor-pool")
