@@ -12,7 +12,7 @@ resolvers += "Eclipse Foundation Releases" at "https://repo.eclipse.org/content/
 
 resolvers += "Eclipse Foundation Snapshots" at "https://repo.eclipse.org/content/repositories/snapshots/"
 
-libraryDependencies += "org.eclipse.mylyn.github" % "org.eclipse.egit.github.core" % "2.1.5"
+libraryDependencies += "org.eclipse.mylyn.github" % "org.eclipse.egit.github.core" % "4.0.0.201503231230-m1"
 
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.2"
 
