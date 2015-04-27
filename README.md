@@ -40,3 +40,4 @@ We all stand on the shoulders of giants and get by with a little help from our f
 ## See also
 * [LMVTFY](https://github.com/cvrebert/lmvtfy), Rorschach's sister bot who does HTML validation
 * [Savage](https://github.com/twbs/savage), Rorschach's sister bot who runs cross-browser JS tests on Sauce Labs
+* [NO CARRIER](https://github.com/twbs/no-carrier), Rorschach's sister bot who closes old abandoned issues
