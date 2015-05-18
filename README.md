@@ -7,6 +7,8 @@ Rorschach ([@twbs-rorschach](https://github.com/twbs-rorschach)) is a [Bootstrap
 
 Rorschach watches for new or modified pull requests, runs sanity checks on them, and if a sanity check fails, it leaves an informative comment on the pull request explaining the mistake and how to fix it, and then closes the pull request.
 
+Rorschach requires Java 8 or higher.
+
 ## Motivation
 
 You're a member of a popular open source project that involves front-end Web technologies. Cool.
