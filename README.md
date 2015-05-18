@@ -1,6 +1,7 @@
 Rorschach
 =========
 [![Build Status](https://travis-ci.org/twbs/rorschach.svg?branch=master)](https://travis-ci.org/twbs/rorschach)
+[![MIT License](https://img.shields.io/github/license/twbs/rorschach.svg)](https://github.com/twbs/rorschach/blob/master/LICENSE.txt)
 
 Rorschach ([@twbs-rorschach](https://github.com/twbs-rorschach)) is a [Bootstrap](https://github.com/twbs/bootstrap/) pull request sanity checker bot.
 
@@ -31,6 +32,9 @@ By automating the process of sanity-checking proposed pull requests:
 * Content type: `application/json`
 * Secret: Same as your `web-hook-secret-key` config value
 * Which events would you like to trigger this webhook?: "Pull Request"
+
+## License
+Rorschach is released under the [MIT License](https://github.com/twbs/rorschach/blob/master/LICENSE.txt).
 
 ## Acknowledgments
 We all stand on the shoulders of giants and get by with a little help from our friends. Rorschach is written in [Scala](http://www.scala-lang.org) and built on top of:
