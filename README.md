@@ -1,6 +1,7 @@
 Rorschach
 =========
 [![Build Status](https://travis-ci.org/twbs/rorschach.svg?branch=master)](https://travis-ci.org/twbs/rorschach)
+![Development Status :: 5 - Production/Stable](https://img.shields.io/badge/maturity-stable-green.svg "Development Status :: 5 - Production/Stable")
 [![MIT License](https://img.shields.io/github/license/twbs/rorschach.svg)](https://github.com/twbs/rorschach/blob/master/LICENSE.txt)
 
 Rorschach ([@twbs-rorschach](https://github.com/twbs-rorschach)) is a [Bootstrap](https://github.com/twbs/bootstrap/) pull request sanity checker bot.
