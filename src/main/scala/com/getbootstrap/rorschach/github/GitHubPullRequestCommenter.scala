@@ -1,33 +1,27 @@
 package com.getbootstrap.rorschach.github
 
 import scala.util.{Try,Failure,Success}
-import org.eclipse.egit.github.core.service.{PullRequestService, IssueService}
-import org.eclipse.egit.github.core.RepositoryId
-import com.getbootstrap.rorschach.github.util.RichPullRequest
+import com.jcabi.github.Coordinates.{Simple=>RepoId}
+import com.getbootstrap.rorschach.github.implicits._
 import com.getbootstrap.rorschach.server.Settings
 
 
 class GitHubPullRequestCommenter extends GitHubActorWithLogging {
   // val settings = Settings(context.system)
 
-  private def tryToCommentOn(repo: RepositoryId, prNum: PullRequestNumber, commentMarkdown: String) = {
-    val issueService = new IssueService(gitHubClient)
-    Try { issueService.createComment(repo, prNum.number, commentMarkdown) }
+  private def tryToCommentOn(repo: RepoId, prNum: PullRequestNumber, commentMarkdown: String) = {
+    Try { gitHubClient.repos.get(repo).issues.get(prNum.number).comments.post(commentMarkdown) }
   }
 
-  private def tryToClose(repo: RepositoryId, prNum: PullRequestNumber): Try[None.type] = {
-    val prService = new PullRequestService(gitHubClient)
-    val prTry = Try { prService.getPullRequest(repo, prNum.number) } match {
-      case fetchFail@Failure(exc) => {
-        log.error(exc, s"Error fetching pull request ${prNum} in order to close it")
-        fetchFail
+  private def tryToClose(repo: RepoId, prNum: PullRequestNumber): Try[Unit] = {
+    val closure = Try { gitHubClient.repos.get(repo).issues.get(prNum.number).smart.close() }
+    closure match {
+      case Failure(exc) => {
+        log.error(exc, s"Error closing pull request ${prNum}")
       }
-      case Success(pr) => {
-        pr.status = Closed
-        Try { prService.editPullRequest(repo, pr) }
-      }
+      case _ => {}
     }
-    prTry.map{ x => None }
+    closure
   }
 
   override def receive = {
@@ -49,7 +43,7 @@ class GitHubPullRequestCommenter extends GitHubActorWithLogging {
       """.stripMargin
 
       tryToCommentOn(repo, prNum, commentMarkdown) match {
-        case Success(comment) => log.info(s"Successfully posted comment ${comment.getUrl} for ${prNum}")
+        case Success(comment) => log.info(s"Successfully posted comment ${comment.smart.url} for ${prNum}")
         case Failure(exc) => log.error(exc, s"Error posting comment for ${prNum}")
       }
 

@@ -8,15 +8,21 @@ import akka.actor.ExtensionId
 import akka.actor.ExtensionIdProvider
 import akka.actor.ExtendedActorSystem
 import akka.util.ByteString
-import org.eclipse.egit.github.core.RepositoryId
+import com.jcabi.github.Github
+import com.jcabi.github.Coordinates.{Simple=>RepoId}
+import com.getbootstrap.rorschach.github.Credentials
+import com.getbootstrap.rorschach.http.{UserAgent=>UA}
 import com.getbootstrap.rorschach.util.Utf8String
 
 class SettingsImpl(config: Config) extends Extension {
-  val repoIds: Set[RepositoryId] = config.getStringList("rorschach.github-repos-to-watch").asScala.toSet.map{ (repoFullName: String) => RepositoryId.createFromId(repoFullName) }
+  val repoIds: Set[RepoId] = config.getStringList("rorschach.github-repos-to-watch").asScala.toSet[String].map{ new RepoId(_) }
   val BotUsername: String = config.getString("rorschach.username")
-  val BotPassword: String = config.getString("rorschach.password")
+  private val botPassword: String = config.getString("rorschach.password")
+  private val botCredentials: Credentials = Credentials(username = BotUsername, password = botPassword)
+  private val githubRateLimitThreshold: Int = config.getInt("rorschach.github-rate-limit-threshold")
+  def github(): Github = botCredentials.github(githubRateLimitThreshold)(UserAgent)
   val WebHookSecretKey: ByteString = ByteString(config.getString("rorschach.web-hook-secret-key").utf8Bytes)
-  val UserAgent: String = config.getString("spray.can.client.user-agent-header")
+  val UserAgent: UA = UA(config.getString("spray.can.client.user-agent-header"))
   val DefaultPort: Int = config.getInt("rorschach.default-port")
   val SquelchInvalidHttpLogging: Boolean = config.getBoolean("rorschach.squelch-invalid-http-logging")
   val CloseBadPullRequests: Boolean = config.getBoolean("rorschach.close-bad-pull-requests")

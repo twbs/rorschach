@@ -3,8 +3,6 @@ package com.getbootstrap.rorschach.server
 import scala.util.{Success, Failure, Try}
 import spray.routing.{Directive1, ValidationRejection}
 import spray.routing.directives.{BasicDirectives, RouteDirectives}
-import org.eclipse.egit.github.core.event.PullRequestPayload
-import org.eclipse.egit.github.core.client.GsonUtils
 
 trait GitHubPullRequestWebHooksDirectives {
   import RouteDirectives.reject
