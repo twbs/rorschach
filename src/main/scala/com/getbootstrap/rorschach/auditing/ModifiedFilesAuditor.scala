@@ -5,6 +5,7 @@ object ModifiedFilesAuditor {
     def isDist: Boolean = filepath.startsWith("dist/")
     def isNonMinifiedCss: Boolean = filepath.endsWith(".css") && !filepath.endsWith(".min.css")
     def isSourceLess: Boolean = filepath.startsWith("less/") && filepath.endsWith(".less")
+    def isSourceScss: Boolean = filepath.startsWith("scss/") && filepath.endsWith(".scss")
     def isNonMinifiedJs: Boolean = filepath.endsWith(".js") && !filepath.endsWith(".min.js")
     def isDistCss: Boolean = filepath.isDist && filepath.isNonMinifiedCss
     def isDistJs: Boolean = filepath.isDist && filepath.isNonMinifiedJs
@@ -21,8 +22,9 @@ object ModifiedFilesAuditor {
   private def auditCss(filepaths: Set[String]): Option[String] = {
     val cssModified = filepaths.exists{ _.isDistCss }
     val lessModified = filepaths.exists{ _.isSourceLess }
-    if (cssModified && !lessModified) {
-      Some("[Changes must be made to the original Less source code file(s), not just the compiled CSS file(s).](https://github.com/twbs/rorschach/blob/master/docs/css.md)")
+    val scssModified = filepaths.exists{ _.isSourceScss }
+    if (cssModified && !lessModified && !scssModified) {
+      Some("[Changes must be made to the original Sass or Less source code file(s), not just the compiled CSS file(s).](https://github.com/twbs/rorschach/blob/master/docs/css.md)")
     }
     else {
       None
