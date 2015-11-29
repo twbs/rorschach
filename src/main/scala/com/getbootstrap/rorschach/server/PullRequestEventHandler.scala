@@ -1,12 +1,11 @@
 package com.getbootstrap.rorschach.server
 
-import com.getbootstrap.rorschach.auditing.{BaseAndHeadBranchesAuditor, ModifiedFilesAuditor}
-
 import scala.collection.JavaConverters._
 import scala.util.{Try,Success,Failure}
 import akka.actor.ActorRef
 import org.eclipse.egit.github.core._
 import org.eclipse.egit.github.core.service.{CommitService, OrganizationService}
+import com.getbootstrap.rorschach.auditing._
 import com.getbootstrap.rorschach.github._
 import com.getbootstrap.rorschach.github.util._
 
@@ -39,6 +38,8 @@ class PullRequestEventHandler(commenter: ActorRef) extends GitHubActorWithLoggin
           val head = prHead.commitSha
           val foreignRepoId = prHead.getRepo.repositoryId
 
+          val titleMessages = TitleAuditor.audit(pr.getTitle)
+          val branchMessages = BaseAndHeadBranchesAuditor.audit(baseBranch = bsBase.getRef, headBranch = prHead.getRef)
           val fileMessages = modifiedFilesFor(foreignRepoId, base, head) match {
             case Failure(exc) => {
               log.error(exc, s"Could not get modified files for commits ${base}...${head} for ${foreignRepoId}")
@@ -48,9 +49,8 @@ class PullRequestEventHandler(commenter: ActorRef) extends GitHubActorWithLoggin
               ModifiedFilesAuditor.audit(modifiedFiles)
             }
           }
-          val branchMessages = BaseAndHeadBranchesAuditor.audit(baseBranch = bsBase.getRef, headBranch = prHead.getRef)
 
-          val allMessages = fileMessages ++ branchMessages
+          val allMessages = titleMessages ++ branchMessages ++ fileMessages
           if (allMessages.nonEmpty) {
             commenter ! PullRequestFeedback(destinationRepo, pr.number, pr.getUser, allMessages)
           }
