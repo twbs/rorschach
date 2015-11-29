@@ -20,4 +20,7 @@ package object util {
     }
     def status = PullRequestStatus(pr.getState)
   }
+  implicit class RichCommitFileSeq(files: Seq[CommitFile]) {
+    def filenames: Set[String] = files.map{ _.getFilename }.toSet[String]
+  }
 }

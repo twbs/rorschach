@@ -19,4 +19,47 @@ package object util {
 
     def asciiLowerCased: String = str.toLowerCase(Locale.ENGLISH)
   }
+
+  implicit class SplittableString(str: String) {
+    /**
+     * Python's str.partition()
+     */
+    def splitOnce(separator: String): (String, String) = {
+      str.lastIndexOf(separator) match {
+        case -1 => (str, "")
+        case sepStart => snipOut(sepStart, separator.length)
+      }
+    }
+
+    /**
+     * Python's str.rpartition()
+     */
+    def splitOnceFromRight(separator: String): (String, String) = {
+      str.lastIndexOf(separator) match {
+        case -1 => ("", str)
+        case sepStart => snipOut(sepStart, separator.length)
+      }
+    }
+
+    private def snipOut(start: Int, length: Int): (String, String) = {
+      val prefix = str.substring(0, start)
+      val suffix = str.substring(start + length)
+      (prefix, suffix)
+    }
+  }
+
+  implicit class FilepathString(filepath: String) {
+    def onlyFilename: String = filepath.splitOnceFromRight("/")._2
+  }
+
+  implicit class FilenameString(filename: String) {
+    def withoutExtension: String = {
+      if (filename.length >= 1 && filename.charAt(0) == '.') {
+        filename
+      }
+      else {
+        filename.splitOnce(".")._1
+      }
+    }
+  }
 }

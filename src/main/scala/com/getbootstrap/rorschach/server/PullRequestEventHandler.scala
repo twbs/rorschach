@@ -10,11 +10,10 @@ import com.getbootstrap.rorschach.github._
 import com.getbootstrap.rorschach.github.util._
 
 class PullRequestEventHandler(commenter: ActorRef) extends GitHubActorWithLogging {
-  private def modifiedFilesFor(repoId: RepositoryId, base: CommitSha, head: CommitSha) = {
+  private def affectedFilesFor(repoId: RepositoryId, base: CommitSha, head: CommitSha) = {
     val commitService = new CommitService(gitHubClient)
     Try { commitService.compare(repoId, base.sha, head.sha) }.map { comparison =>
-      val affectedFiles = comparison.getFiles.asScala
-      affectedFiles.filter{ _.status == Modified }.map{ _.getFilename }.toSet[String]
+      comparison.getFiles.asScala
     }
   }
 
@@ -38,18 +37,19 @@ class PullRequestEventHandler(commenter: ActorRef) extends GitHubActorWithLoggin
           val head = prHead.commitSha
           val foreignRepoId = prHead.getRepo.repositoryId
 
-          val titleMessages = TitleAuditor.audit(pr.getTitle)
-          val branchMessages = BaseAndHeadBranchesAuditor.audit(baseBranch = bsBase.getRef, headBranch = prHead.getRef)
-          val fileMessages = modifiedFilesFor(foreignRepoId, base, head) match {
+          val affectedFiles = affectedFilesFor(foreignRepoId, base, head) match {
             case Failure(exc) => {
-              log.error(exc, s"Could not get modified files for commits ${base}...${head} for ${foreignRepoId}")
+              log.error(exc, s"Could not get affected files for commits ${base}...${head} for ${foreignRepoId}")
               Nil
             }
-            case Success(modifiedFiles) => {
-              ModifiedFilesAuditor.audit(modifiedFiles)
-            }
+            case Success(files) => files
           }
+          val modifiedFiles = affectedFiles.filter{ _.status == Modified }.filenames
+          val addedFiles = affectedFiles.filter{ _.status == Added }.filenames
 
+          val titleMessages = TitleAuditor.audit(pr.getTitle)
+          val branchMessages = BaseAndHeadBranchesAuditor.audit(baseBranch = bsBase.getRef, headBranch = prHead.getRef)
+          val fileMessages = ModifiedFilesAuditor.audit(modifiedFiles) ++ AddedFilesAuditor.audit(addedFiles)
           val allMessages = titleMessages ++ branchMessages ++ fileMessages
           if (allMessages.nonEmpty) {
             commenter ! PullRequestFeedback(destinationRepo, pr.number, pr.getUser, allMessages)
