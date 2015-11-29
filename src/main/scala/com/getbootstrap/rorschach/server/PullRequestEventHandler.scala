@@ -44,8 +44,8 @@ class PullRequestEventHandler(commenter: ActorRef) extends GitHubActorWithLoggin
             }
             case Success(files) => files
           }
+          val addedFiles = affectedFiles.filter{ _.status == Added }
           val modifiedFiles = affectedFiles.filter{ _.status == Modified }.filenames
-          val addedFiles = affectedFiles.filter{ _.status == Added }.filenames
 
           val titleMessages = TitleAuditor.audit(pr.getTitle)
           val branchMessages = BaseAndHeadBranchesAuditor.audit(baseBranch = bsBase.getRef, headBranch = prHead.getRef)
