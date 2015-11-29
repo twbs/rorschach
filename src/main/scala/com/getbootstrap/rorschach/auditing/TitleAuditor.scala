@@ -14,7 +14,7 @@ object TitleAuditor {
     if (
       title == "Merge pull request #1 from twbs/master"
       || title.startsWith("Create ")
-      || title.asciiLowerCased == "master"
+      || title.trim.asciiLowerCased == "master"
     ) {
       Seq(message)
     }
