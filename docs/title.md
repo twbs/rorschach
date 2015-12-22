@@ -1,7 +1,7 @@
 This warning is triggered if the title of a pull request:
 
 * Is exactly "master" (ignoring case)
-* Is exactly "Merge pull request #1 from twbs/master"
+* Starts with "Merge pull request #1 from "
 * Starts with "Create" (which is used [when creating a new file from the GitHub web UI](https://help.github.com/articles/creating-new-files/))
 
 These sorts of titles are strongly correlated with pull requests which were created to test out Git or GitHub, rather than proposing any legitimate change to Bootstrap.
