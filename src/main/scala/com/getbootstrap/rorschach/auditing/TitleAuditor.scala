@@ -12,7 +12,7 @@ object TitleAuditor {
 
   def audit(title: String): Seq[String] = {
     if (
-      title == "Merge pull request #1 from twbs/master"
+      title.startsWith("Merge pull request #1 from ")
       || title.startsWith("Create ")
       || title.trim.asciiLowerCased == "master"
     ) {
