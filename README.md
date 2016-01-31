@@ -4,6 +4,7 @@ Rorschach
 ![Development Status :: 5 - Production/Stable](https://img.shields.io/badge/maturity-stable-green.svg "Development Status :: 5 - Production/Stable")
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg "MIT License")](https://github.com/twbs/rorschach/blob/master/LICENSE.txt)
 
+
 Rorschach ([@twbs-rorschach](https://github.com/twbs-rorschach)) is a [Bootstrap](https://github.com/twbs/bootstrap/) pull request sanity checker bot.
 
 Rorschach watches for new or modified pull requests, runs sanity checks on them, and if a sanity check fails, it leaves an informative comment on the pull request explaining the mistake and how to fix it, and then closes the pull request.
