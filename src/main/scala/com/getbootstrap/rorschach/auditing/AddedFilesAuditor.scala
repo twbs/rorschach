@@ -23,7 +23,7 @@ object AddedFilesAuditor {
 
   private def auditFilenames(filepaths: Set[String]): Seq[String] = {
     val filenames = filepaths.map{ filepath => {
-      filepath.onlyFilename.withoutExtension.replaceAllLiterally("-", "").replaceAllLiterally(" ", "").asciiLowerCased
+      filepath.onlyFilename.withoutExtension.replaceAllLiterally("-", "").replaceAllLiterally("_", "").replaceAllLiterally(" ", "").asciiLowerCased
     }}
     if (filenames.contains("newfile")) {
       Seq(filenameMessage)
