@@ -11,10 +11,12 @@ object TitleAuditor {
       |and is thus considered rude.""".stripMargin.replaceAllLiterally("\n", " ")
 
   def audit(title: String): Seq[String] = {
+    val cleanedTitle = title.trim.asciiLowerCased
     if (
       title.startsWith("Merge pull request #1 from ")
       || title.startsWith("Create ")
-      || title.trim.asciiLowerCased == "master"
+      || cleanedTitle == "master"
+      || cleanedTitle == "test"
     ) {
       Seq(message)
     }
