@@ -28,6 +28,9 @@ By automating the process of sanity-checking proposed pull requests:
 * [Pull requests must never edit `/dist/js/bootstrap.js` without also editing `/js/*.js`](docs/js.md).
 * [Pull requests must never edit `/dist/css/bootstrap.css` without also editing `/scss/*.scss` or `/less/*.less`.](docs/css.md)
 * [Pull requests must never modify the `CNAME` file.](docs/cname.md)
+* Pull requests must not be used solely to test out Git or GitHub instead of proposing legitimate improvements.
+  * [Pull requests must not have titles which strongly suggest this.](docs/title.md)
+  * [Pull requests must not create new files with names which strongly suggest this (e.g. `new-file.txt`).](docs/newfile.md)
 
 ## GitHub webhook configuration
 
