@@ -2,7 +2,7 @@ name := "rorschach"
 
 version := "1.0"
 
-scalaVersion := "2.11.5"
+scalaVersion := "2.11.8"
 
 mainClass := Some("com.getbootstrap.rorschach.server.Boot")
 
@@ -21,7 +21,7 @@ libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.2"
 
 libraryDependencies ++= {
   val akkaV = "2.3.9"
-  val sprayV = "1.3.2"
+  val sprayV = "1.3.3"
   Seq(
     "io.spray"            %%  "spray-can"     % sprayV,
     "io.spray"            %%  "spray-routing" % sprayV,
@@ -29,7 +29,7 @@ libraryDependencies ++= {
     "com.typesafe.akka"   %%  "akka-actor"    % akkaV,
     "com.typesafe.akka"   %%  "akka-slf4j"    % akkaV,
     "com.typesafe.akka"   %%  "akka-testkit"  % akkaV    % "test",
-    "org.specs2"          %%  "specs2"        % "2.3.12" % "test"
+    "org.specs2"          %%  "specs2-core"   % "3.8.4"  % "test"
   )
 }
 
